@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bauni Check 😎</title>
+<style>
+  :root {
+    --bg: #fff5f8;
+    --card: #ffffff;
+    --ink: #2d1b2e;
+    --muted: #8b6a8a;
+    --line: #f0d8ec;
+    --accent: #e84d8a;
+    --accent-hover: #d63a77;
+    --accent-light: #fce4ec;
+    --yes-bg: #4caf50;
+    --yes-hover: #43a047;
+    --no-bg: #f44336;
+    --no-hover: #e53935;
+    --font-main: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #2d1b2e;
+      --card: #3d253e;
+      --ink: #fce4ec;
+      --muted: #c9a8c6;
+      --line: #5a3a58;
+      --accent: #f06292;
+      --accent-hover: #f48fb1;
+      --accent-light: #4a2548;
+      --yes-bg: #66bb6a;
+      --yes-hover: #81c784;
+      --no-bg: #ef5350;
+      --no-hover: #e57373;
+    }
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--ink);
+    font: 18px/1.5 var(--font-main);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    transition: background 0.3s ease;
+    overflow: hidden;
+  }
+
+  /* Animated background */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 20% 20%, var(--accent-light) 0%, transparent 50%),
+      radial-gradient(ellipse 60% 40% at 80% 80%, var(--accent-light) 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, var(--accent-light) 0%, transparent 70%);
+    opacity: 0.6;
+    animation: floatBg 20s ease-in-out infinite;
+    z-index: -1;
+  }
+
+  @keyframes floatBg {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    25% { transform: scale(1.1) rotate(1deg); }
+    50% { transform: scale(1.05) rotate(-1deg); }
+    75% { transform: scale(1.1) rotate(0.5deg); }
+  }
+
+  .container {
+    background: var(--card);
+    border: 2px solid var(--line);
+    border-radius: 24px;
+    padding: 40px;
+    text-align: center;
+    max-width: 420px;
+    width: 100%;
+    box-shadow:
+      0 20px 40px rgba(232, 77, 138, 0.15),
+      0 0 0 1px rgba(232, 77, 138, 0.05) inset;
+    position: relative;
+    overflow: visible;
+  }
+
+  .container::before {
+    content: '';
+    position: absolute;
+    top: -2px; left: -2px; right: -2px; bottom: -2px;
+    border-radius: 26px;
+    background: linear-gradient(135deg, var(--accent), #f06292, var(--accent));
+    background-size: 200% 200%;
+    z-index: -1;
+    animation: borderGlow 3s ease infinite;
+    opacity: 0.5;
+  }
+
+  @keyframes borderGlow {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+    background: linear-gradient(135deg, var(--accent), #d63a77);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: 1.1rem;
+    margin-bottom: 32px;
+    font-weight: 500;
+  }
+
+  .question-box {
+    background: var(--bg);
+    border: 2px dashed var(--line);
+    border-radius: 16px;
+    padding: 28px 20px;
+    margin-bottom: 32px;
+    position: relative;
+  }
+
+  .question-box::after {
+    content: '❓';
+    position: absolute;
+    top: -16px;
+    right: 20px;
+    font-size: 1.5rem;
+    background: var(--card);
+    padding: 0 8px;
+  }
+
+  .question-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .btn-group {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: relative;
+    min-height: 60px;
+  }
+
+  .btn {
+    font: inherit;
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 16px 36px;
+    border-radius: 50px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.3), transparent);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .btn:hover::before { opacity: 1; }
+
+  .btn:active { transform: scale(0.95); }
+
+  .btn:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  .btn-yes {
+    background: var(--yes-bg);
+    color: white;
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+  }
+
+  .btn-yes:hover {
+    background: var(--yes-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(76, 175, 80, 0.5);
+  }
+
+  .btn-no {
+    background: var(--no-bg);
+    color: white;
+    box-shadow: 0 6px 20px rgba(244, 67, 54, 0.4);
+  }
+
+  .btn-no:hover {
+    background: var(--no-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(244, 67, 54, 0.5);
+  }
+
+  /* No button running away styles */
+  .btn-no.running {
+    position: absolute;
+    transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1), top 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 10;
+  }
+
+  .btn-no.running:hover {
+    transform: translateY(-3px) scale(1.05);
+  }
+
+  /* Result message */
+  .result {
+    display: none;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-top: 24px;
+    padding: 20px;
+    background: var(--accent-light);
+    border-radius: 16px;
+    animation: popIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    line-height: 1.5;
+  }
+
+  @keyframes popIn {
+    0% { opacity: 0; transform: scale(0.8) translateY(20px); }
+    50% { transform: scale(1.05) translateY(-5px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .result.show { display: block; }
+
+  .result-emoji {
+    display: block;
+    font-size: 3rem;
+    margin-bottom: 8px;
+    animation: bounce 1s ease infinite;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  /* Confetti */
+  .confetti {
+    position: fixed;
+    top: -10px;
+    width: 10px;
+    height: 10px;
+    animation: fall 3s linear forwards;
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  @keyframes fall {
+    to {
+      transform: translateY(110vh) rotate(720deg);
+      opacity: 0;
+    }
+  }
+
+  /* Footer hint */
+  .hint {
+    margin-top: 24px;
+    font-size: 0.85rem;
+    color: var(--muted);
+    opacity: 0.7;
+  }
+
+  /* Mobile adjustments */
+  @media (max-width: 480px) {
+    .container { padding: 28px 20px; }
+    h1 { font-size: 1.6rem; }
+    .question-text { font-size: 1.25rem; }
+    .btn { padding: 14px 28px; font-size: 1rem; }
+    .btn-group { gap: 12px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Bauni Check 😎</h1>
+  <p class="subtitle">Ek zimmedaar sawaal...</p>
+
+  <div class="question-box">
+    <p class="question-text" id="question">Kya tu apne aap ko <strong>bauni</strong> maanti hai? 🤔</p>
+  </div>
+
+  <div class="btn-group" id="btnGroup">
+    <button class="btn btn-yes" id="yesBtn">Haan, main bauni hoon ✅</button>
+    <button class="btn btn-no" id="noBtn">Nahi, main bauni nahi hoon ❌</button>
+  </div>
+
+  <div class="result" id="result">
+    <span class="result-emoji" id="resultEmoji">😎</span>
+    <span id="resultText">Mujhe pehle se hi pta tha! 😏</span>
+  </div>
+
+  <p class="hint" id="hint">No pe click karne ki koshish kar... 😉</p>
+</div>
+
+<script>
+// Configuration
+const NO_BUTTON_TEXTS = [
+  "Nahi, main bauni nahi hoon ❌",
+  "Pakkha matlab nahi! 😤",
+  "Bilkul nahi yaar 🙅",
+  "Main toh sher hoon 🦁",
+  "Bauni? Kya bakwaas hai 😂",
+  "Chal nikal yahan se 🏃",
+  "Mujhe nahi khelna 😒",
+  "Abhi batao... 🤨",
+  "Chal chal chal 🏃",
+  "Chal jhoothi 😏",
+  "Chal be bauni 😂",
+  "Acha ji 😎",
+  "Pehle shishe me khud ko dekh 🪞"
+];
+
+const YES_MESSAGES = [
+  { text: "Mujhe pehle se hi pta tha! 😏", emoji: "😎" },
+  { text: "Pata tha, bauni toh bauni hoti hai 😂", emoji: "🤷" },
+  { text: "Sach bol diya, respect! 🫡", emoji: "👑" },
+  { text: "Bauni king/queen confirmed 👑", emoji: "😎" }
+];
+
+// Elements
+const yesBtn = document.getElementById('yesBtn');
+const noBtn = document.getElementById('noBtn');
+const btnGroup = document.getElementById('btnGroup');
+const result = document.getElementById('result');
+const resultText = document.getElementById('resultText');
+const resultEmoji = document.getElementById('resultEmoji');
+const hint = document.getElementById('hint');
+const question = document.getElementById('question');
+
+let noClickCount = 0;
+
+// Get random position across the entire viewport
+function getRandomViewportPosition() {
+  const btnRect = noBtn.getBoundingClientRect();
+  const btnWidth = btnRect.width;
+  const btnHeight = btnRect.height;
+  const padding = 20;
+
+  const maxX = window.innerWidth - btnWidth - padding;
+  const maxY = window.innerHeight - btnHeight - padding;
+
+  const x = Math.max(padding, Math.min(maxX, Math.random() * maxX));
+  const y = Math.max(padding, Math.min(maxY, Math.random() * maxY));
+
+  return { x, y };
+}
+
+// Move button to new random position on click
+function moveOnClick() {
+  noBtn.classList.add('running');
+  noBtn.style.position = 'fixed';
+  noBtn.style.margin = '0';
+  noBtn.style.zIndex = '9999';
+
+  const pos = getRandomViewportPosition();
+  noBtn.style.left = pos.x + 'px';
+  noBtn.style.top = pos.y + 'px';
+
+  // Change text
+  noBtn.textContent = NO_BUTTON_TEXTS[Math.floor(Math.random() * NO_BUTTON_TEXTS.length)];
+}
+
+// Reset button position back to flex layout
+function resetButtonPosition() {
+  noBtn.classList.remove('running');
+  noBtn.style.position = '';
+  noBtn.style.left = '';
+  noBtn.style.top = '';
+  noBtn.style.margin = '';
+  noBtn.style.zIndex = '';
+}
+
+// Show result with confetti
+function showResult(message, emoji) {
+  resultText.textContent = message;
+  resultEmoji.textContent = emoji;
+  result.classList.add('show');
+  yesBtn.disabled = true;
+  noBtn.disabled = true;
+  noBtn.style.display = 'none';
+  hint.style.display = 'none';
+  question.style.display = 'none';
+
+  // Create confetti
+  createConfetti();
+
+  // Reset after 5 seconds
+  setTimeout(resetGame, 5000);
+}
+
+function createConfetti() {
+  const colors = ['#e84d8a', '#f06292', '#4caf50', '#66bb6a', '#ffeb3b', '#ffd54f', '#29b6f6', '#4fc3f7'];
+
+  for (let i = 0; i < 50; i++) {
+    setTimeout(() => {
+      const confetti = document.createElement('div');
+      confetti.className = 'confetti';
+      confetti.style.left = Math.random() * 100 + 'vw';
+      confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+      confetti.style.width = confetti.style.height = (Math.random() * 8 + 6) + 'px';
+      confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+      confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+      confetti.style.animationDelay = (Math.random() * 0.5) + 's';
+      document.body.appendChild(confetti);
+
+      setTimeout(() => confetti.remove(), 4000);
+    }, i * 30);
+  }
+}
+
+function resetGame() {
+  result.classList.remove('show');
+  yesBtn.disabled = false;
+  noBtn.disabled = false;
+  noBtn.style.display = '';
+  hint.style.display = '';
+  question.style.display = '';
+  noClickCount = 0;
+  noBtn.textContent = NO_BUTTON_TEXTS[0];
+  resetButtonPosition();
+}
+
+// Event listeners
+yesBtn.addEventListener('click', () => {
+  const msg = YES_MESSAGES[Math.floor(Math.random() * YES_MESSAGES.length)];
+  showResult(msg.text, msg.emoji);
+});
+
+noBtn.addEventListener('click', () => {
+  noClickCount++;
+
+  if (noClickCount === 1) {
+    hint.textContent = "Arre, button bhag raha hai! 😂";
+  } else if (noClickCount === 2) {
+    hint.textContent = "Pakad ke dikha... 🏃💨";
+  } else if (noClickCount === 3) {
+    hint.textContent = "Chal haan bol de ab... 😤";
+  }
+
+  moveOnClick();
+});
+
+// Also run away on mouse hover for extra fun (after first click)
+noBtn.addEventListener('mouseenter', () => {
+  if (noClickCount > 0) {
+    moveOnClick();
+  }
+});
+
+// Touch support for mobile
+noBtn.addEventListener('touchstart', (e) => {
+  if (noClickCount > 0) {
+    e.preventDefault();
+    moveOnClick();
+  }
+}, { passive: false });
+
+// Keyboard accessibility
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' || e.key === ' ') {
+    const active = document.activeElement;
+    if (active === noBtn) {
+      e.preventDefault();
+      noBtn.click();
+    } else if (active === yesBtn) {
+      yesBtn.click();
+    }
+  }
+  if (e.key === 'Escape') {
+    resetGame();
+  }
+});
+</script>
+</body>
+</html>
